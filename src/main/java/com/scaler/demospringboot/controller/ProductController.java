@@ -1,9 +1,12 @@
 package com.scaler.demospringboot.controller;
 
 
+import com.scaler.demospringboot.model.Category;
 import com.scaler.demospringboot.model.Product;
 import com.scaler.demospringboot.service.ProductService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ProductController {
@@ -39,6 +42,7 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     public Product getProduct(@PathVariable long id) {
+
 //        whenever some wish to get one product on /products/id
 //          the following method will be executed
 
@@ -49,9 +53,39 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public void getAllproducts(){
+    public List<Product> getAllproducts(){
+
+        List<Product> allProducts =productservice.getAllProducts();
+
+        return allProducts;
 
     }
+
+    @PutMapping("/products/{id}")
+    public Product putProduct(@RequestBody Product product,@PathVariable long id ){
+        return productservice.updateProduct(product,id);
+
+    }
+
+    @DeleteMapping("/products/{id}")
+    public String deleteProduct(@PathVariable long id) {
+
+        return productservice.removeProduct(id);
+
+    }
+
+    @GetMapping("/products/categories")
+    public List<Category> getAllcategories(){
+
+        return productservice.getAllCategories();
+    }
+
+    @GetMapping("/products/category/{categoryName}")
+    public List<Product> getProductsByCategory(@PathVariable String categoryName) {
+
+        return productservice.getProductsByCategory(categoryName);
+    }
+
 
 
 }

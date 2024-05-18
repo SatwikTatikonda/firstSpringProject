@@ -13,7 +13,7 @@ public class FakeStoreProductDto {
     private long id;
     private String title;
     private double price;
-    private String catergory;
+    public String category;
     private String description;
     private String image;
 
@@ -25,11 +25,11 @@ public class FakeStoreProductDto {
         p.setPrice(price);
         p.setImageUrl(image);
         p.setDescription(description);
-
         Category cat=new Category();
-        cat.setTitle(catergory);
+        cat.setTitle(category);
         return p;
     }
+
 
 }
 

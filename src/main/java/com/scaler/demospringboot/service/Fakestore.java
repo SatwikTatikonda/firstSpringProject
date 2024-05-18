@@ -1,8 +1,16 @@
 package com.scaler.demospringboot.service;
 
+import ch.qos.logback.classic.util.LogbackMDCAdapter;
 import com.scaler.demospringboot.dto.FakeStoreProductDto;
+import com.scaler.demospringboot.model.Category;
 import com.scaler.demospringboot.model.Product;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -38,7 +46,21 @@ public class Fakestore implements ProductService{
 
     @Override
     public List<Product> getAllProducts() {
-        return null;
+
+        List<Product>lst=new ArrayList<>();
+        FakeStoreProductDto[] fakeStoreProductDto= restTemplate.getForObject(
+                "https://fakestoreapi.com/products", FakeStoreProductDto[].class
+
+        );
+        List<FakeStoreProductDto> fakeStoreProductDtoLst = new ArrayList<>(Arrays.asList(fakeStoreProductDto));
+
+
+        for(FakeStoreProductDto fs:fakeStoreProductDtoLst){
+           lst.add(fs.toProduct());
+       }
+
+       System.out.println(lst);
+       return lst;
     }
 
     @Override
@@ -47,7 +69,7 @@ public class Fakestore implements ProductService{
         FakeStoreProductDto fs= new FakeStoreProductDto();
         fs.setId(product.getId());
         fs.setTitle(product.getTitle());
-        fs.setCatergory(product.getCategory().getTitle());
+        fs.setCategory(product.getCategory().getTitle());
         fs.setImage(product.getImageUrl());
         fs.setDescription(product.getDescription());
         fs.setPrice(product.getPrice());
@@ -61,4 +83,76 @@ public class Fakestore implements ProductService{
         return response.toProduct();
 
     }
+
+    @Override
+
+    public Product updateProduct(Product product,long id) {
+
+        FakeStoreProductDto fs= new FakeStoreProductDto();
+        fs.setId(product.getId());
+        fs.setTitle(product.getTitle());
+//        fs.setCategory(product.getCategory().getTitle());
+        fs.setImage(product.getImageUrl());
+        fs.setDescription(product.getDescription());
+        fs.setPrice(2000);
+
+        restTemplate.put(
+
+                "https://fakestoreapi.com/products/"+id,
+                fs
+        );
+
+        return fs.toProduct();
+
+    }
+
+
+    @Override
+    public String removeProduct(long productId) {
+
+        restTemplate.delete("https://fakestoreapi.com/products/"+productId);
+        return "product with "+productId+" was removed";
+    }
+
+
+    @Override
+    public List<Category> getAllCategories() {
+
+        String[] fakestorecategories= restTemplate.getForObject(
+
+                "https://fakestoreapi.com/products/categories", String[].class
+
+        );
+        List<Category>categoryList = new ArrayList<>();
+
+        long id=1L;
+        for(String cat:fakestorecategories){
+            categoryList.add(new Category(id,cat));
+            id+=1;
+        }
+
+        return categoryList;
+    }
+
+    public List<Product> getProductsByCategory(String category) {
+
+        List<Product>lstnew=new ArrayList<>();
+        FakeStoreProductDto[] fakeStoreProductDto= restTemplate.getForObject(
+                "https://fakestoreapi.com/products", FakeStoreProductDto[].class
+
+        );
+        List<FakeStoreProductDto> fakeStoreProductDtoLst = new ArrayList<>(Arrays.asList(fakeStoreProductDto));
+
+
+        for(FakeStoreProductDto fs:fakeStoreProductDtoLst){
+            System.out.println(fs.category);
+            if (fs.category.equals(category)){
+                lstnew.add(fs.toProduct());
+            }
+        }
+
+
+        return lstnew;
+    }
+
 }
