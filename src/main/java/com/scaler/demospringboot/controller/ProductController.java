@@ -1,9 +1,13 @@
 package com.scaler.demospringboot.controller;
 
 
+import com.scaler.demospringboot.dto.ErrorDto;
+import com.scaler.demospringboot.exceptions.ProductNotFound;
 import com.scaler.demospringboot.model.Category;
 import com.scaler.demospringboot.model.Product;
 import com.scaler.demospringboot.service.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,12 +45,16 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public Product getProduct(@PathVariable long id) {
-
+    public Product getProduct(@PathVariable long id) throws ProductNotFound {
 //        whenever some wish to get one product on /products/id
 //          the following method will be executed
 
         Product currentProduct= productservice.getSingleProduct(id);
+        ResponseEntity<Product> res= new ResponseEntity<>(
+                currentProduct, HttpStatus.NOT_FOUND
+        );
+
+
         return currentProduct;
 
 
@@ -84,6 +92,14 @@ public class ProductController {
     public List<Product> getProductsByCategory(@PathVariable String categoryName) {
 
         return productservice.getProductsByCategory(categoryName);
+    }
+
+    @ExceptionHandler(ProductNotFound.class)
+    public ResponseEntity<ErrorDto> handleProductNotFoundException(Exception e){
+        ErrorDto errorDto=new ErrorDto();
+        errorDto.setMessage(e.getMessage());
+
+        return new ResponseEntity<>(errorDto,HttpStatus.NOT_FOUND);
     }
 
 

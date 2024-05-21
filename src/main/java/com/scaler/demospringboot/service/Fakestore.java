@@ -2,12 +2,10 @@ package com.scaler.demospringboot.service;
 
 import ch.qos.logback.classic.util.LogbackMDCAdapter;
 import com.scaler.demospringboot.dto.FakeStoreProductDto;
+import com.scaler.demospringboot.exceptions.ProductNotFound;
 import com.scaler.demospringboot.model.Category;
 import com.scaler.demospringboot.model.Product;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -30,7 +28,19 @@ public class Fakestore implements ProductService{
     }
 
     @Override
-    public Product getSingleProduct(long productId) {
+    public Product getSingleProduct(long productId) throws ProductNotFound {
+
+//        ResponseEntity<FakeStoreProductDto> fakeStoreProductDto= restTemplate.getForEntity(
+//
+//                "https://fakestoreapi.com/products/"+productId,
+//                FakeStoreProductDto.class
+//
+//        );
+
+
+
+//        return fakeStoreProductDto.toProduct();
+
 
         FakeStoreProductDto fakeStoreProductDto= restTemplate.getForObject(
 
@@ -38,6 +48,10 @@ public class Fakestore implements ProductService{
                 FakeStoreProductDto.class
 
         );
+
+        if (fakeStoreProductDto==null){
+            throw new ProductNotFound(" product not found with id "+productId);
+        }
 
         return fakeStoreProductDto.toProduct();
 
