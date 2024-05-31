@@ -1,6 +1,7 @@
 package com.scaler.demospringboot.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public class Category extends Basemodel{
 
     private long id;
     private String title;
-//    @OneToMany(mappedBy="category")
-//    private List<Product> products;
+    @OneToMany(mappedBy="category",fetch= FetchType.LAZY)
+    private List<Product> products;
 
 }

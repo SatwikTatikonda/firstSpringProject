@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
-@Service
+@Service("fakestore")
 //spring acknowledges here the connection between controller and service takes place using @Service
 
 
@@ -36,8 +36,6 @@ public class Fakestore implements ProductService{
 //                FakeStoreProductDto.class
 //
 //        );
-
-
 
 //        return fakeStoreProductDto.toProduct();
 
@@ -132,16 +130,19 @@ public class Fakestore implements ProductService{
     @Override
     public List<Category> getAllCategories() {
 
+
+//        return  null;
+
         String[] fakestorecategories= restTemplate.getForObject(
 
                 "https://fakestoreapi.com/products/categories", String[].class
 
         );
         List<Category>categoryList = new ArrayList<>();
-
+        List<Product> productList=new ArrayList<>();
         long id=1L;
         for(String cat:fakestorecategories){
-            categoryList.add(new Category(id,cat));
+            categoryList.add(new Category(id,cat,productList));
             id+=1;
         }
 

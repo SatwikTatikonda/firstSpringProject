@@ -6,6 +6,8 @@ import com.scaler.demospringboot.exceptions.ProductNotFound;
 import com.scaler.demospringboot.model.Category;
 import com.scaler.demospringboot.model.Product;
 import com.scaler.demospringboot.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +27,18 @@ public class ProductController {
 //                "category": "electronic"
 //     }
 
-    private ProductService productservice;
+    @Qualifier("selfProductService")
+    @Autowired
+    private final ProductService productservice;
 
-
-    public ProductController(ProductService productservice) {
+    public ProductController(@Qualifier("selfProductService") ProductService productservice) {
         this.productservice = productservice;
     }
+
+
+//    public ProductController( @Qualifier("selfProductService") ProductService productservice) {
+//        this.productservice = productservice;
+//    }
 
     @PostMapping("/products")
     public Product createProduct(@RequestBody Product product) {
