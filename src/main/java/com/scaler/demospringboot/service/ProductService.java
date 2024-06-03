@@ -14,6 +14,7 @@ public interface ProductService {
     String removeProduct(long productId);
     List<Category> getAllCategories();
     List<Product> getProductsByCategory(String categoryName);
+    String removeCategory(long categoryId);
 
 
 }

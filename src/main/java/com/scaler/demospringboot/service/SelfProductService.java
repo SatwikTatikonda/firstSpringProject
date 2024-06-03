@@ -108,6 +108,13 @@ public class SelfProductService implements ProductService{
 
         Category category=categoryRepository.findByTitle(categoryName);
         List<Product> listOfProducts=category.getProducts();
+//        System.out.println(listOfProducts);
         return listOfProducts;
+    }
+
+    @Override
+    public String removeCategory(long categoryId) {
+        categoryRepository.deleteById(categoryId);
+        return "Category with "+categoryId+" is deleted successfully ";
     }
 }

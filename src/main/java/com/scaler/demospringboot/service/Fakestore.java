@@ -142,8 +142,8 @@ public class Fakestore implements ProductService{
         List<Product> productList=new ArrayList<>();
         long id=1L;
         for(String cat:fakestorecategories){
-            categoryList.add(new Category(id,cat,productList));
-            id+=1;
+            categoryList.add(new Category(cat,productList));
+//            id+=1;
         }
 
         return categoryList;
@@ -169,5 +169,13 @@ public class Fakestore implements ProductService{
 
         return lstnew;
     }
+
+    @Override
+    public String removeCategory(long categoryId) {
+        return null;
+//        categoryRepository.deleteById(categoryId);
+//        return "Category with "+categoryId+" is deleted successfully ";
+    }
+
 
 }

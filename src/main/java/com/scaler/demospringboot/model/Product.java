@@ -1,5 +1,6 @@
 package com.scaler.demospringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -20,6 +21,7 @@ public class Product extends Basemodel {
     private String description;
     private double price;
     private String imageUrl;
+
     @ManyToOne(cascade={CascadeType.PERSIST})
     private Category category;
 

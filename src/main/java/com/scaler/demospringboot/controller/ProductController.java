@@ -9,6 +9,7 @@ import com.scaler.demospringboot.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class ProductController {
     @Qualifier("selfProductService")
     @Autowired
     private final ProductService productservice;
+
 
     public ProductController(@Qualifier("selfProductService") ProductService productservice) {
         this.productservice = productservice;
@@ -100,6 +102,16 @@ public class ProductController {
     public List<Product> getProductsByCategory(@PathVariable String categoryName) {
 
         return productservice.getProductsByCategory(categoryName);
+    }
+
+    @DeleteMapping("/category/{id}")
+    public String deleteCategory(@PathVariable long id) {
+        return productservice.removeCategory(id);
+    }
+
+    @GetMapping("/health")
+    public ResponseEntity<String> checkHealth(){
+        return new ResponseEntity<>("backend server is running perfectly fine", HttpStatus.OK);
     }
 
     @ExceptionHandler(ProductNotFound.class)

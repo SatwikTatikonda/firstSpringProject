@@ -1,5 +1,7 @@
 package com.scaler.demospringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
@@ -18,9 +20,10 @@ import java.util.List;
 @Entity
 public class Category extends Basemodel{
 
-    private long id;
+//    private long id;
     private String title;
-    @OneToMany(mappedBy="category",fetch= FetchType.LAZY)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch= FetchType.LAZY)
+    @JsonIgnore
     private List<Product> products;
 
 }
