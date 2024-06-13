@@ -5,6 +5,7 @@ import com.scaler.demospringboot.dto.FakeStoreProductDto;
 import com.scaler.demospringboot.exceptions.ProductNotFound;
 import com.scaler.demospringboot.model.Category;
 import com.scaler.demospringboot.model.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -57,22 +58,23 @@ public class Fakestore implements ProductService{
     }
 
     @Override
-    public List<Product> getAllProducts() {
+    public Page<Product> getAllProducts(int pageSize, int pageNumber, String fieldName) {
 
-        List<Product>lst=new ArrayList<>();
-        FakeStoreProductDto[] fakeStoreProductDto= restTemplate.getForObject(
-                "https://fakestoreapi.com/products", FakeStoreProductDto[].class
-
-        );
-        List<FakeStoreProductDto> fakeStoreProductDtoLst = new ArrayList<>(Arrays.asList(fakeStoreProductDto));
-
-
-        for(FakeStoreProductDto fs:fakeStoreProductDtoLst){
-           lst.add(fs.toProduct());
-       }
-
-       System.out.println(lst);
-       return lst;
+        return null;
+//        List<Product>lst=new ArrayList<>();
+//        FakeStoreProductDto[] fakeStoreProductDto= restTemplate.getForObject(
+//                "https://fakestoreapi.com/products", FakeStoreProductDto[].class
+//
+//        );
+//        List<FakeStoreProductDto> fakeStoreProductDtoLst = new ArrayList<>(Arrays.asList(fakeStoreProductDto));
+//
+//
+//        for(FakeStoreProductDto fs:fakeStoreProductDtoLst){
+//           lst.add(fs.toProduct());
+//       }
+//
+//       System.out.println(lst);
+//       return lst;
     }
 
     @Override

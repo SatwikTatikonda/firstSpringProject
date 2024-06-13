@@ -7,6 +7,10 @@ import com.scaler.demospringboot.model.Product;
 import com.scaler.demospringboot.repositories.CategoryRepository;
 import com.scaler.demospringboot.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,12 +23,18 @@ public class SelfProductService implements ProductService{
     private ProductRepository productRepository;
     @Autowired
     private CategoryRepository categoryRepository;
-    private ProductController productController;
+//    private ProductController productController;
 
     public SelfProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
     }
+
+
+//    public SelfProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
+//        this.productRepository = productRepository;
+//        this.categoryRepository = categoryRepository;
+//    }
 
 //    public SelfProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
 //
@@ -42,8 +52,10 @@ public class SelfProductService implements ProductService{
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return  productRepository.findAll();
+    public Page<Product> getAllProducts(int pageSize, int pageNumber, String fieldName) {
+
+        Page<Product> allProducts = productRepository.findAll(PageRequest.of(pageNumber,pageSize,Sort.by(fieldName).ascending()));
+        return allProducts;
     }
 
     @Override
