@@ -65,9 +65,9 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public Page<Product> getAllproducts(@RequestParam("pageSize") int pageSize, @RequestParam("pageNumber") int pageNumber, @RequestParam("sortBy") String fieldName){
+    public Page<Product> getAllproducts(@RequestParam("pageSize") int pageSize, @RequestParam("pageNumber") int pageNumber, @RequestParam("sortBy") String fieldName,@RequestParam("sortOrder") String order){
 
-        return productservice.getAllProducts(pageSize,pageNumber,fieldName);
+        return productservice.getAllProducts(pageSize,pageNumber,fieldName,order);
 
 
     }

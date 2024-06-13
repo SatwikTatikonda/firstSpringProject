@@ -10,7 +10,7 @@ import java.util.*;
 public interface ProductService {
 
     Product getSingleProduct(long productId) throws ProductNotFound;
-    Page<Product> getAllProducts(int pageSize, int pageNumber, String fieldName);
+    Page<Product> getAllProducts(int pageSize, int pageNumber, String fieldName,String order);
     Product createProduct(Product product);
     Product updateProduct(Product product,long id);
     String removeProduct(long productId);

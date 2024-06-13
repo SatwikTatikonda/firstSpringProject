@@ -58,7 +58,7 @@ public class Fakestore implements ProductService{
     }
 
     @Override
-    public Page<Product> getAllProducts(int pageSize, int pageNumber, String fieldName) {
+    public Page<Product> getAllProducts(int pageSize, int pageNumber, String fieldName,String order) {
 
         return null;
 //        List<Product>lst=new ArrayList<>();
