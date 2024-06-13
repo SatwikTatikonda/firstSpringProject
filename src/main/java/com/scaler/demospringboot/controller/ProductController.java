@@ -29,11 +29,11 @@ public class ProductController {
 //                "category": "electronic"
 //     }
 
-    @Qualifier("selfProductService")
+    @Qualifier("fakestore")
     @Autowired
     private ProductService productservice;
 
-    public ProductController(@Qualifier("selfProductService") ProductService productservice) {
+    public ProductController(@Qualifier("fakestore") ProductService productservice) {
         this.productservice = productservice;
     }
 

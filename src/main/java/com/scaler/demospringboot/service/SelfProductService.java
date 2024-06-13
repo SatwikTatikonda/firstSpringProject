@@ -50,7 +50,7 @@ public class SelfProductService implements ProductService{
         }
         throw new ProductNotFound("Product not found");
     }
-
+//    http://localhost:9090/products?pageSize=4&pageNumber=0&sortBy=price&sortOrder=desc
     @Override
     public Page<Product> getAllProducts(int pageSize, int pageNumber, String fieldName,String order) {
 
